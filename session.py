@@ -21,7 +21,9 @@ class Session:
         if user_id != '':
             user_id = f'user_id={user_id}&'
         response = request.urlopen(f'{self.protocol}{self.address}{method}?{user_id}v=5.52&{self.token_field}')
-        return self.parse_ids(json.load(response)['response']['items'])
+        json_response = json.load(response)
+        print(f'Wait please. We have to handle {json_response["response"]["count"]} persons')
+        return self.parse_ids(json_response['response']['items'])
 
     @staticmethod
     def get_token():
