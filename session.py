@@ -5,8 +5,6 @@ import json
 from configparser import ConfigParser
 
 TOKEN_FILE = 'token.cfg'
-FRIENDS = 'friends'
-ONLINE_FRIENDS = ''
 
 
 class Session:
@@ -22,6 +20,8 @@ class Session:
             user_id = f'user_id={user_id}&'
         response = request.urlopen(f'{self.protocol}{self.address}{method}?{user_id}v=5.52&{self.token_field}')
         json_response = json.load(response)
+        if 'error' in json_response:
+            return json_response['error']['error_msg']
         print(f'Wait please. We have to handle {json_response["response"]["count"]} persons')
         return self.parse_ids(json_response['response']['items'])
 
